@@ -1,0 +1,13 @@
+<button onclick="handleClick()">Click</button>
+
+<script>
+    let handleClick = () => {    
+        fetch(`http://api.weatherapi.com/v1/forecast.json?key=889bcb646a87439db43203647232102&q=New York&days=3&hour=24
+    }`)
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data)
+    })}
+
+        
+</script>

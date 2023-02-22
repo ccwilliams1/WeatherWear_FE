@@ -1,0 +1,77 @@
+<!-- NAVBAR -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WeatherWear</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark" style="background-color: #457b9d" >
+      <div class="container-fluid">
+        <h2 class="navbar-brand mb-0" onclick="window.location.href = '../../index.html'">WeatherWear</h2>
+        <ul class="nav justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link" href="../myWardrobe/myWardrobe.html" style="color: white">My Wardrobe</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../today/today.html" style="color: white">Today</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../calendar/calendar.html" style="color: white">Calendar</a>
+          </li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Location" aria-label="Search">
+          <button class="btn btn-outline-light" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+    <div class="container-fluid" id="main">
+      <h1>Welcome to WeatherWear!</h1>
+      <p>
+        This is the My Wardrobe Tab
+      </p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"></script>
+  </body>
+</html>
+<!-- NAVBAR -->
+
+<div id = "wardrobe-buttons" class="container">
+  <div class="row justify-content-md-center">
+    <div class="col col-lg-2">
+      <button id="view-btn" class="btn btn-primary" type="button" onclick="handleView()" >View My Closet</button>
+  </div>
+  <div class="col col-lg-2">
+      <button id="add-btn" class="btn btn-primary" type="button" onclick="handleAdd()" >Add To My Closet</button>
+  </div>
+  </div>
+</div>
+<div id="wardrobe-table">
+
+</div>
+<!-- Form to add a new item -->
+<div>
+  <form id="add-item-form" style="display: none; width: 50%; margin-left: 25%;">
+    <div class="form-group">
+      <label for="item-name">Item name:</label>
+      <input type="text" class="form-control" id="item-name" placeholder="Enter item name">
+    </div>
+    <div class="form-group">
+      <label for="item-type">Item type:</label>
+      <select class="form-control" id="item-type">
+        <option value="shirt">Shirt</option>
+        <option value="pants">Pants</option>
+        <option value="shoes">Shoes</option>
+        <option value="accessory">Accessory</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-danger">Submit</button>
+  </form>
+</div>
+
+   
