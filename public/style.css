@@ -1,0 +1,26 @@
+body {
+	background: linear-gradient(110deg,  #f1faee 0%, #a8dadc 100%);
+  }
+  
+  #main {
+	margin-top: 20px;
+	text-align: center;
+  }
+
+.nav-link.active,
+.nav-link:active,
+.nav-link:focus {
+  background-color: #254355;
+  color: #457B98;
+}
+
+.nav-link:hover {
+  background-color: #254355;
+  color: #fff;
+}
+
+
+.btn-primary{
+	background-color: #E63946 !important;
+	font-size: 30px !important
+}

@@ -1,0 +1,85 @@
+<!-- Main HTML file -->
+<!DOCTYPE html>
+<!-- NAVBAR -->
+<html>
+  <head>
+    <title>WeatherWear</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">
+    <script src="script.js"></script>
+  </head>
+  <body onload="getLocation()">
+    <nav class="navbar navbar-dark" style="background-color: #457b9d" >
+      <div class="container-fluid">
+        <h2 class="navbar-brand mb-0">WeatherWear</h2>
+        <ul class="nav justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link" href="tabs/myWardrobe/myWardrobe.html" style="color: white">My Wardrobe</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="tabs/today/today.html" style="color: white">Today</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="tabs/calendar/calendar.html" style="color: white">Calendar</a>
+          </li>
+        </ul>
+        <div class="d-flex" id="location-search">
+          <input id = "location-text" class="form-control me-2" type="search" placeholder="Location" aria-label="Search">
+          <button class="btn btn-outline-light" type="button" onclick="handleSearch()">Search</button>
+        </div>
+      </div>
+    </nav>
+<!-- NAVBAR -->
+<!-- WEATHER DATA -->
+    <div class="container-fluid" id="main">
+      <h1 >Welcome to WeatherWear!</h1>
+      <h1 id="location" style="text-align: left;">Getting Your Location...</h1>
+    </div>
+    <div id="weather-container"></div>
+<!-- WEATHER DATA -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"></script>
+  </body>
+</html>
+<!-- THREE BUTTONS -->
+<div id = "btn-container" class="container" style="display: none;">
+    <div class="row justify-content-md-center">
+        <div class="col col-lg-2">
+            <button class="btn btn-primary" type="button" >Generate Today's Outifts</button>
+        </div>
+    </div>
+    <div class="row justify-content-md-center" style="margin-top: 1%;">
+        <div class="col col-lg-2">
+            <button class="btn btn-primary" type="button" onclick="window.location.href = 'tabs/myWardrobe/myWardrobe.html'" >View My Wardrobe</button>
+        </div>
+        <div class="col col-lg-2">
+            <button class="btn btn-primary" type="button" onclick="window.location.href = 'tabs/calendar/calendar.html'" >View My Calendar</button>
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+<!-- <div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col" style="justify-content: center; align-items: center;">
+            <button type="button" class="btn btn-primary">Generate Today's Outfits</button>
+          </div>
+        </div>
+    <div class="row">
+        <div class="col-5">
+            <button type="button" class="btn btn-primary">View My Wardrobe</button>
+          </div>
+          <div class="col">
+            <button type="button" class="btn btn-primary">View My Calendar</button>
+          </div>
+    </div> -->
+
+  </div>
+  <!-- BUTTONS -->
+
+  
