@@ -24,3 +24,7 @@ body {
 	background-color: #E63946 !important;
 	font-size: 30px !important
 }
+
+.card {
+  align-items: center !important;
+}
