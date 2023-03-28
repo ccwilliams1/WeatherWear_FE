@@ -1,9 +1,9 @@
 //This gets the users current location from the browser
 let city;
 
-function getCity() {
-  return city;
-}
+// function getCity() {
+//   return city;
+// }
 
 function getLocation() {
   if (navigator.geolocation) {
@@ -54,12 +54,13 @@ let getWeatherData = (city) => {
   const apiKey = "889bcb646a87439db43203647232102";
 
   // Make a request to the WeatherAPI and display the results on the screen
-  fetch(`${weatherEndpoint}?key=${apiKey}&q=${city}&days=2`)
+  fetch(`${weatherEndpoint}?key=${apiKey}&q=${city}&days=7`)
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
       fillWeatherData(data);
       createWeatherObject(data);
+      localStorage.setItem("weatherData", JSON.stringify(data));
       document.getElementById("btn-container").style.display = "block";
       document.getElementById("cards-container").style.display = "block";
     })
