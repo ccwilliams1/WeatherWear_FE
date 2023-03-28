@@ -62,6 +62,57 @@ app.post("/add-item", (req, res) => {
   });
 });
 
+//This creates an end-point called 'add-item' that adds an item to the closet table
+app.post("/delete-item", (req, res) => {
+  //This is the connection to the wardrobe database within postgres
+  const client = new Client({
+    user: "postgres",
+    host: "localhost",
+    port: 5432,
+    database: "wardrobe",
+  });
+  client.connect();
+  const query = "DELETE FROM closet WHERE id = $1";
+  const id = req.body.id;
+
+  client.query(query, [id], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Failed to add item to the database");
+    } else {
+      res.status(200).send("Item removed from the database");
+    }
+
+    client.end();
+  });
+});
+
+//This creates an end-point called 'edit-item' that adds an item to the closet table
+app.post("/edit-item", (req, res) => {
+  //This is the connection to the wardrobe database within postgres
+  const client = new Client({
+    user: "postgres",
+    host: "localhost",
+    port: 5432,
+    database: "wardrobe",
+  });
+  client.connect();
+  const query =
+    "UPDATE closet SET item_name = $1, item_type = $2 WHERE id = $3";
+  const values = [req.body.itemName, req.body.itemType, req.body.id];
+
+  client.query(query, values, (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Failed to edit item in the database");
+    } else {
+      res.status(200).send("Item edited in the database");
+    }
+
+    client.end();
+  });
+});
+
 //Lets you know youre successfully running on the localhost
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
