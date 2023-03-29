@@ -44,10 +44,10 @@
 <div id = "wardrobe-buttons" class="container">
   <div class="row justify-content-md-center">
     <div class="col col-lg-2">
-      <button id="view-btn" class="btn btn-primary" type="button" onclick="handleView()" >View My Closet</button>
+      <button id="view-btn" class="view-button" type="button" onclick="handleView()" >View My Wardrobe</button>
   </div>
   <div class="col col-lg-2">
-      <button id="add-btn" class="btn btn-primary" type="button" onclick="handleAdd()" >Add To My Closet</button>
+      <button id="add-btn" class="add-button" type="button" onclick="handleAdd()" >Add To My Wardrobe</button>
   </div>
   </div>
 </div>
@@ -71,6 +71,26 @@
       </select>
     </div>
     <button type="submit" class="btn btn-danger">Submit</button>
+  </form>
+</div>
+<!-- Form to edit a new item -->
+<div>
+  <form id="edit-item-form" style="display: none; width: 50%; margin-left: 25%;">
+    <div class="form-group">
+      <label for="item-name">Item name:</label>
+      <input type="text" class="form-control" id="item-name" placeholder="Enter item name">
+    </div>
+    <div class="form-group">
+      <label for="item-type">Item type:</label>
+      <select class="form-control" id="item-type">
+        <option value="shirt">Shirt</option>
+        <option value="pants">Pants</option>
+        <option value="shoes">Shoes</option>
+        <option value="accessory">Accessory</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-danger">Submit</button>
+    <button id="cancel" type="button" class="btn btn-danger">Cancel</button>
   </form>
 </div>
 
