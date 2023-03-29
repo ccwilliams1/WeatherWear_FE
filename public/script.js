@@ -20,6 +20,7 @@ let fillWeatherData = (data) => {
   const weatherHTML = `
                   <p>Current temperature: ${data.current.temp_f} °F</p>
                   <p>Current condition: ${data.current.condition.text}</p>
+                  <p>Chance of Rain: ${data.forecast.forecastday[0].day.daily_chance_of_rain}%</p>
                 `;
 
   // Add the weather HTML to the weather container element
@@ -27,6 +28,7 @@ let fillWeatherData = (data) => {
 
   //Fill cards
   // Get all the h5 elements on the page
+  const h3Elements = document.getElementsByTagName("h3");
   const h4Elements = document.getElementsByTagName("h4");
   const h5Elements = document.getElementsByTagName("h5");
   const cardContainer = document.getElementById("cards-container");
@@ -35,7 +37,7 @@ let fillWeatherData = (data) => {
   currDay = 0;
 
   // Loop through each h5 element and log its content to the console
-  for (let i = 0; i < h4Elements.length; i++) {
+  for (let i = 0; i < h5Elements.length; i++) {
     let hourTemp = Math.floor(
       data.forecast.forecastday[currDay].hour[hour].temp_f
     ).toString();
@@ -60,6 +62,8 @@ let fillWeatherData = (data) => {
     }
     let standardTime = `${standardHour}:00 ${meridian}`;
     h5Elements[i].innerHTML = standardTime;
+    h3Elements[i].innerHTML =
+      data.forecast.forecastday[currDay].hour[hour].condition.text;
     h4Elements[i].innerHTML = `${hourTemp} °F`;
     imgElements[i].src =
       data.forecast.forecastday[currDay].hour[hour].condition.icon;
