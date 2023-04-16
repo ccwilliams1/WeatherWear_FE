@@ -12,7 +12,7 @@
   <body>
     <nav class="navbar navbar-dark" style="background-color: #457b9d" >
       <div class="container-fluid">
-        <h2 class="navbar-brand mb-0" onclick="window.location.href = '../../index.html'">WeatherWear</h2>
+        <h2 class="navbar-brand mb-0" onclick="window.location.href = '../../home.html'">WeatherWear</h2>
         <ul class="nav justify-content-center">
           <li class="nav-item">
             <a class="nav-link" href="../myWardrobe/myWardrobe.html" style="color: white">My Wardrobe</a>
@@ -24,7 +24,7 @@
             <a class="nav-link" href="../calendar/calendar.html" style="color: white">Calendar</a>
           </li>
         </ul>
-        <form class="d-flex">
+        <form id = "search" class="d-flex">
           <input class="form-control me-2" type="search" placeholder="Location" aria-label="Search">
           <button class="btn btn-outline-light" type="submit">Search</button>
         </form>
@@ -56,41 +56,107 @@
 </div>
 <!-- Form to add a new item -->
 <div>
-  <form id="add-item-form" style="display: none; width: 50%; margin-left: 25%;">
-    <div class="form-group">
-      <label for="item-name">Item name:</label>
-      <input type="text" class="form-control" id="item-name" placeholder="Enter item name">
+  <form id="add-item-form">
+    <div class="form-row">
+      <div class="form-column">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+  
+        <label for="type">Type</label>
+        <select id="type-add" name="type" required>
+          <option value="">Select Type</option>
+          <option value="Shirt">Shirt</option>
+          <option value="Pants">Pants</option>
+          <option value="Shoes">Shoes</option>
+          <option value="Outerwear">Outerwear</option>
+
+          <!-- Add more options as needed -->
+        </select>
+  
+        <label for="subtype">Subtype</label>
+        <select id="subtype-add" name="subtype">
+          <option value="">Select Subtype</option>
+          <!-- Add more options as needed -->
+        </select>
+      </div>
+      <div class="form-column">
+        <label for="size">Size</label>
+        <input type="text" id="size" name="size">
+  
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="5" required></textarea>
+      </div>
+      <div class="form-column">
+        <label>Dress Style</label>
+        <br>
+        <div class="dress-style-label"><input type="checkbox" name="dress_style" value="Casual"> Casual</div>
+        <div class="dress-style-label"><input type="checkbox" name="dress_style" value="Formal"> Formal</div>
+        <div class="dress-style-label"><input type="checkbox" name="dress_style" value="Business"> Business</div>
+        <div class="dress-style-label"><input type="checkbox" name="dress_style" value="Lounge"> Lounge</div>
+        <br>
+        <label for="color">Color</label>
+        <input type="text" id="color" name="color">
+  
+        <label for="material">Material</label>
+        <input type="text" id="material" name="material">
+      </div>
     </div>
-    <div class="form-group">
-      <label for="item-type">Item type:</label>
-      <select class="form-control" id="item-type">
-        <option value="shirt">Shirt</option>
-        <option value="pants">Pants</option>
-        <option value="shoes">Shoes</option>
-        <option value="accessory">Accessory</option>
-      </select>
+    <div class="button-container">
+      <button type="submit">Add to Database</button>
     </div>
-    <button type="submit" class="btn btn-danger">Submit</button>
   </form>
 </div>
 <!-- Form to edit a new item -->
 <div>
-  <form id="edit-item-form" style="display: none; width: 50%; margin-left: 25%;">
-    <div class="form-group">
-      <label for="item-name">Item name:</label>
-      <input type="text" class="form-control" id="item-name" placeholder="Enter item name">
+  <form id="edit-item-form">
+    <div class="form-row">
+      <div class="form-column">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+  
+        <label for="type">Type</label>
+        <select id="type-edit" name="type" required>
+          <option value="">Select Type</option>
+          <option value="Shirt">Shirt</option>
+          <option value="Pants">Pants</option>
+          <option value="Shoes">Shoes</option>
+          <option value="Outerwear">Outerwear</option>
+
+          <!-- Add more options as needed -->
+        </select>
+  
+        <label for="subtype">Subtype</label>
+        <select id="subtype-edit" name="subtype">
+          <option value="">Select Subtype</option>
+          <!-- Add more options as needed -->
+        </select>
+      </div>
+      <div class="form-column">
+        <label for="size">Size</label>
+        <input type="text" id="size" name="size">
+  
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="5" required></textarea>
+      </div>
+      <div class="form-column">
+        <label>Dress Style</label>
+        <br>
+        <div class="dress-style-label"><input type="checkbox" name="dress_style" value="Casual"> Casual</div>
+        <div class="dress-style-label"><input type="checkbox" name="dress_style" value="Formal"> Formal</div>
+        <div class="dress-style-label"><input type="checkbox" name="dress_style" value="Business"> Business</div>
+        <div class="dress-style-label"><input type="checkbox" name="dress_style" value="Lounge"> Lounge</div>
+        <br>
+        <label for="color">Color</label>
+        <input type="text" id="color" name="color">
+  
+        <label for="material">Material</label>
+        <input type="text" id="material" name="material">
+      </div>
     </div>
-    <div class="form-group">
-      <label for="item-type">Item type:</label>
-      <select class="form-control" id="item-type">
-        <option value="shirt">Shirt</option>
-        <option value="pants">Pants</option>
-        <option value="shoes">Shoes</option>
-        <option value="accessory">Accessory</option>
-      </select>
-    </div>
-    <button type="submit" class="btn btn-danger">Submit</button>
-    <button id="cancel" type="button" class="btn btn-danger">Cancel</button>
+    <div class="button-container">
+      <button type="submit" class="btn btn-danger">Submit</button>
+      <button id="cancel" type="button" class="btn btn-danger">Cancel</button>    </div>
+  </form>
   </form>
 </div>
 
