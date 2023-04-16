@@ -21,6 +21,8 @@ body {
 }
 /* NAVBAR */
 
+/* Result Table TBD */
+
 .styled-table {
   border-collapse: collapse;
   margin-top: 5%;
@@ -60,3 +62,90 @@ body {
   font-weight: bold;
   color: #009879;
 }
+
+/* Result Table TBD */
+
+
+/* Formality Check */
+body {
+  font-family: sans-serif;
+}
+
+.card-container {
+  width: 400px;
+}
+
+#formality-wrapper {
+  padding-top: 5%;
+  display: flex;
+  flex-direction : column;
+  align-items: center;
+  max-width: 400px;
+  text-align: center;
+
+}
+
+
+.card {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.casual {
+  font-family: 'Comic Sans MS', cursive;
+}
+
+.formal {
+  font-family: 'Times New Roman', serif;
+}
+
+.business {
+  font-family: 'Arial', sans-serif;
+}
+
+.lounge {
+  font-family: 'Courier New', monospace;
+}
+
+/* Formality Check */
+
+/* Display */
+
+#display-wrapper {
+  padding: 10% 2%;
+  display: flex;
+  flex-direction : column;
+  align-items: center;
+  text-align: center;
+
+}
+
+.card-color {
+  height: 30px;
+}
+
+#new-content-wrapper .card-title {
+  font-weight: 200 !important
+}
+
+/* .outerwear-color {
+  background-color: black;
+}
+
+.shirt-color {
+  background-color: black;
+}
+
+.pants-color {
+  background-color: black;
+}
+
+.shoes-color {
+  background-color: black;
+} */
+/* Display */
