@@ -1,0 +1,150 @@
+body {
+	background: linear-gradient(110deg,  #f1faee 0%, #a8dadc 100%);
+  }
+  #main {
+	margin-top: 20px;
+	text-align: center;
+  }
+
+.nav-link.active,
+.nav-link:active,
+.nav-link:focus {
+  background-color: #254355;
+  color: #457B98;
+}
+
+.nav-link:hover {
+  background-color: #254355;
+  color: #fff;
+}
+
+
+.btn-primary{
+	background-color: #E63946 !important;
+	font-size: 30px !important
+}
+
+.card {
+  align-items: center !important;
+  background-color: #E5F8F9 !important;
+  box-shadow: 0 0 10px #254355 !important;
+}
+
+
+
+.wardrobe-button {
+  border: 2px solid #2a9d8f;
+  letter-spacing: 2px;
+  background-color: transparent;
+  border-radius: 20px;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  box-shadow: none;
+}
+
+.wardrobe-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px #2a9d8f;
+  background-color: #2a9d8f;
+  color: white;
+}
+
+.today-button {
+  text-align: center;
+  display: inline-block;
+  padding: 15px 40px;
+  border: 1px solid #fff;
+  cursor: pointer;
+  letter-spacing: 2px;
+  position:relative;
+  overflow:hidden;
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: transparent;
+}
+
+.today-button:before {
+  content: "";
+  position: absolute;
+  height: 150px;
+  width: 50px;
+  background : #e63946;
+  left: -55px;
+  top: -40px;
+  transform: rotate(37deg);
+  transition: all .5s;
+  opacity: 0.3;
+}
+
+.today-button:hover:before {
+  left:95%;
+}
+
+
+.calendar-button {
+  border: 2px solid #e9c46a;
+  letter-spacing: 2px;
+  background-color: transparent;
+  border-radius: 20px;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  box-shadow: none;
+}
+
+.calendar-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px #e9c46a;
+  background-color: #e9c46a;
+  color: white;
+}
+
+/* Loader */
+
+.loader {
+  width: 48px;
+  height: 48px;
+  background: #457b9d;
+  display: block;
+  margin: 20px auto;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotationBack 1s ease-in-out infinite reverse;
+}
+.loader::before {
+  content: '';  
+  box-sizing: border-box;
+  left: 0;
+  top: 0;
+  transform: rotate(45deg);
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  background: #457b9d;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+.loader::after {
+  content: '';  
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: #FFF;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+@keyframes rotationBack {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+/* Loader */
+
+
+
