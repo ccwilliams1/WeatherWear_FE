@@ -7,8 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css">
-    <script src="../../utils/WeatherAPI.js"></script>
-
   </head>
   <body>
     <nav class="navbar navbar-dark" style="background-color: #457b9d" >
@@ -32,35 +30,88 @@
       </div>
     </nav>
     <!-- NAVBAR -->
+    <!-- Calendar Header (Month) -->
     <div id="calendar-header">
-      <button id="prev-month">&lt;</button>
+      <button id="prev-month" class="btn btn-danger">&lt;</button>
       <h2 id="month-year"></h2>
-      <button id="next-month">&gt;</button>
+      <button id="next-month" class="btn btn-danger">&gt;</button>
   </div>
+  <!-- Weekdays header -->
   <div id="weekdays-header"></div>
+    <!-- Weekdays header -->
+    <!-- Calendar Grid -->
   <div id="calendar"></div>
+    <!-- Calendar Grid -->
+  <!-- Event Overlay -->
   <div id="event-overlay" style="display:none">
       <div id="event-dialog">
           <h3 id="event-date"></h3>
           <div class="col">
-            <div class="container" id="weather-container" style="display:none">
+            <!-- Weather Container -->
+            <div class="container" id="weather-container" style="display:none; align-items: center;">
                   <div class="card weather-card">
                     <div class="card-body d-flex">
                       <div class="temp-container d-flex flex-column align-items-start">
-                        <div class="high"></div>
-                        <div class="low"></div>
+                        <div class="high" style="color: #f00;"></div>
+                        <div class="low" style="color: #00f;"></div>
                       </div>
                       <div class="weather-image-container mx-3">
-                        <img src="" alt="Weather icon" class="weather-image">
+                        <img src="" alt="Weather icon" class="weather-image" width="50px" height="50px">
                       </div>
                       <div class="condition-container d-flex align-items-center">
-                        <div class="condition"></div>
+                        <div class="condition" style="font-size: 1.5rem; font-weight: bold;"></div>
                       </div>
                     </div>
               </div>
             </div>
-            
-          <table id="event-table" class="hidden">
+           <!-- Outfit Table  -->
+           <div id="display-wrapper" class="content-wrapper" style="display: none">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card mb-4">
+                  <div class="card-color outerwear-color"></div>
+                  <div class="card-body">
+                    <h1 class="card-title">Outerwear</h2>
+                    <h4 class="card-subtitle">Type | Subtype</h4>
+                    <p class="card-text">Description of the item</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card mb-4">
+                  <div class="card-color shirt-color"></div>
+                  <div class="card-body">
+                    <h2 class="card-title">Shirt</h2>
+                    <h3 class="card-subtitle">Type | Subtype</h3>
+                    <p class="card-text">Description of the item</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card mb-4">
+                  <div class="card-color pants-color"></div>
+                  <div class="card-body">
+                    <h2 class="card-title">Pants</h2>
+                    <h3 class="card-subtitle">Type | Subtype</h3>
+                    <p class="card-text">Description of the item</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-color shoes-color"></div>
+                  <div class="card-body">
+                    <h2 class="card-title">Shoes</h2>
+                    <h3 class="card-subtitle">Type | Subtype</h3>
+                    <p class="card-text">Description of the item</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <table id="event-table" class="hidden">
               <thead>
                   <tr>
                       <th>Time</th>
@@ -69,12 +120,44 @@
               </thead>
               <tbody>
               </tbody>
-          </table>
+          </table> -->
+          <!-- Outfit Table -->
+          <!-- Button Container -->
           <button id="add-outfit" class="overlay-btn">Generate Outfit</button>
           <button id="clear-outfit" class="overlay-btn">Clear Outfit</button>
           <button id="close-outfit" class="overlay-btn">Close</button>
+          <!-- Button Container -->
       </div>
   </div>
+    <!-- Event Overlay -->
+
+  <!-- Formality Check -->
+  <div id="formalityCheck" class="container" style="display: none; z-index: 30; position: fixed;">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card" data-id="1">
+                <div class="card-body">Casual</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" data-id="2">
+                <div class="card-body">Formal</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" data-id="3">
+                <div class="card-body">Business</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" data-id="4">
+                <div class="card-body">Lounge</div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div id="formalityOverlay" class="formalityOverlay"></div>
+
   <script src="script.js"></script>
   <script src="../../utils/WeatherAPI.js"></script>
 

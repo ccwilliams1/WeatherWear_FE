@@ -229,3 +229,90 @@ app.post("/edit-item", (req, res) => {
 app.listen(listening_port, () => {
   console.log(`Server listening at http://localhost:${listening_port}`);
 });
+
+//This creates an end-point called 'days' that associates an outfit with a given date
+app.post("/add-day", (req, res) => {
+  //This is the connection to the wardrobe database within postgres
+  const client = new Client({
+    user: "postgres",
+    password: "password",
+    host: "postgres-temp.cqqqmuimitus.us-east-1.rds.amazonaws.com",
+    port: 5432,
+    database: "postgres",
+  });
+  client.connect();
+  const query = `
+  INSERT INTO days (date, outfit, user_email)
+  VALUES ($1, $2, $3)
+  ON CONFLICT (date)
+  DO UPDATE SET outfit = EXCLUDED.outfit;
+`;
+  const values = [req.body.newDate, req.body.newOutfit, req.body.email];
+
+  client.query(query, values, (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Failed to add date to database");
+    } else {
+      res.status(200).send("Date added to database");
+    }
+
+    client.end();
+  });
+});
+
+//This creates an end-point called 'get-days' that returns all the day rows in the day table
+app.post("/get-days", (req, res) => {
+  //This is the connection to the wardrobe database within postgres
+  const client = new Client({
+    user: "postgres",
+    password: "password",
+    host: "postgres-temp.cqqqmuimitus.us-east-1.rds.amazonaws.com",
+    port: 5432,
+    database: "postgres",
+  });
+  client.connect();
+  let query = "SELECT * FROM days WHERE user_email = $1";
+  let values = [req.body.email];
+  client.query(query, values, (err, result) => {
+    if (err) {
+      console.log(err.stack);
+      res.status(500).send("Error fetching data from the database");
+    } else {
+      //Whoever calls this endpoint gets the results of the table returned in json format
+      res.send(result.rows);
+    }
+  });
+});
+
+//This creates an end-point called 'clear-day' that deletes a day and outfit from the days table
+app.post("/clear-day", (req, res) => {
+  // This is the connection to the wardrobe database within postgres
+  const client = new Client({
+    user: "postgres",
+    password: "password",
+    host: "postgres-temp.cqqqmuimitus.us-east-1.rds.amazonaws.com",
+    port: 5432,
+    database: "postgres",
+  });
+  client.connect();
+  const query = "DELETE FROM days WHERE date = $1 AND user_email = $2";
+  const values = [req.body.date, req.body.email];
+  console.log(values);
+
+  client.query(query, values, (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Failed to clear date from database");
+    } else {
+      res.status(200).send("Cleared date from database");
+    }
+
+    client.end();
+  });
+});
+
+//Lets you know youre successfully running on the localhost
+app.listen(listening_port, () => {
+  console.log(`Server listening at http://localhost:${listening_port}`);
+});

@@ -10,6 +10,8 @@ const clearOutfitButton = document.getElementById("clear-outfit");
 const closeOutfitButton = document.getElementById("close-outfit");
 const weatherData = JSON.parse(localStorage.getItem("weatherData"));
 let weatherObject;
+let email = localStorage.getItem("email");
+let days;
 // Initialize the current month and year
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
@@ -57,8 +59,23 @@ function renderWeekdaysHeader() {
 let selectedDay;
 
 //This function displays the calendar days to the DOM
-function renderCalendar(month, year) {
+async function renderCalendar(month, year) {
+  /*When an outfit is generated for a given day, that date and outfit
+  are sent to the databse. This expression retrieves all of those dates and outfits
+  */
+  const response = await fetch("/get-days", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email }),
+  });
+
+  //Store the retrieved days in a list to be used later
+  days = await response.json();
+
   calendar.innerHTML = "";
+  //Add the Month and Year to the top of the calendar
   monthYear.textContent = `${monthNames[month]} ${year}`;
 
   // Get the first day of the month
@@ -88,6 +105,19 @@ function renderCalendar(month, year) {
     day.textContent = i;
     calendar.appendChild(day);
 
+    /* Very important
+    If the current day that is being printed has a date that is in the days list
+    an outfit has already been generated for it. This expression places an event indicator (white dot)
+    on the day to let the user know there's already an outfit for it
+    */
+    Object.entries(days).forEach(([key, value]) => {
+      if (value.date == day.dataset.date) {
+        selectedDay = day;
+        selectedDay.setAttribute("outfit", JSON.stringify(value.outfit));
+        day.classList.add("event-indicator");
+      }
+    });
+
     //Function to determine whether a two days are within one week of each other
     const isWithinOneWeek = (date1, date2) => {
       const oneWeekInMilliseconds = 6 * 24 * 60 * 60 * 1000;
@@ -109,10 +139,18 @@ function renderCalendar(month, year) {
     //What to do when a day box is clicked
     day.addEventListener("click", () => {
       //Make the event overlay visible
-      eventOverlay.style.display = "block";
+      eventOverlay.style.display = "flex";
       //Show the date for whatever day you clicked
       eventDate.textContent = `Date: ${day.dataset.date}`;
       selectedDay = day;
+
+      //If the day in question already has an outfit generated for it, fill that outfit
+      //Otherwise hide the display in case it was already visible
+      if (selectedDay.getAttribute("outfit")) {
+        fillCards(JSON.parse(selectedDay.getAttribute("outfit")));
+      } else {
+        document.querySelector("#display-wrapper").style.display = "none";
+      }
 
       //Determine if the selected day is within one week of the current day
       const differenceInDays = Math.ceil(
@@ -122,12 +160,13 @@ function renderCalendar(month, year) {
 
       //Hide weather container by default
       document.querySelector("#weather-container").style.display = "none";
+
       //If the two days are within a week apart, populate the event dialog with weather data for that given day
       if (differenceInDays >= 0 && differenceInDays <= 6) {
         document.querySelector("#weather-container").style.display = "block";
         const forecastedDay =
           weatherData.forecast.forecastday[differenceInDays].day;
-        console.log(forecastedDay);
+        //console.log(forecastedDay);
         document.querySelector(".high").innerHTML =
           "High: " + forecastedDay.maxtemp_f;
         document.querySelector(".low").innerHTML =
@@ -137,27 +176,26 @@ function renderCalendar(month, year) {
         document.querySelector(".condition").innerHTML =
           forecastedDay.condition.text;
 
-        //If specific day has already generated a weather object, show that, otherwise hide the table
-        if (!day.dataset.outfit) {
-          document.getElementById("event-table").classList.add("hidden");
-        } else {
-          document.getElementById("event-table").classList.remove("hidden");
-          document.getElementById("event-table").innerHTML = day.dataset.outfit;
-        }
-
         //Create a weather object for the given day to pass to the rule engine
         weatherObject = {
           high: forecastedDay.maxtemp_f,
           low: forecastedDay.mintemp_f,
+          // condition: "Patchy rain possible",
           condition: forecastedDay.condition.text,
           chance_of_rain: forecastedDay.daily_chance_of_rain,
+          chance_of_snow: forecastedDay.daily_chance_of_snow,
+          humidity: forecastedDay.avghumidity,
+          wind_speed: forecastedDay.maxwind_mph,
+          uv_index: forecastedDay.uv,
+          // average: 70,
+          average: Math.ceil(forecastedDay.avgtemp_f),
         };
       }
     });
   }
 }
 
-//Go to previous month and update calendar
+//Go to previous month and print days
 prevMonthButton.addEventListener("click", () => {
   currentMonth--;
   if (currentMonth < 0) {
@@ -167,7 +205,7 @@ prevMonthButton.addEventListener("click", () => {
   renderCalendar(currentMonth, currentYear);
 });
 
-//Go to next month and update calendar
+//Go to next month and print days
 nextMonthButton.addEventListener("click", () => {
   currentMonth++;
   if (currentMonth > 11) {
@@ -177,51 +215,114 @@ nextMonthButton.addEventListener("click", () => {
   renderCalendar(currentMonth, currentYear);
 });
 
-//When the Generate Outfit Button is pressed, send weather data for that particular date to rule engine and receive outfit
-//Then parse outfit string into table and print table
+//What to do when the Generate Outfit Buttons is pressed
 addOutfitButton.addEventListener("click", () => {
-  //Once outfit is generated, add indicator with the surprise tool from earlier
-  selectedDay.classList.add("event-indicator");
-  fetch(
-    `http://localhost:8080/weather?data=` +
-      encodeURIComponent(JSON.stringify(weatherObject))
-  )
-    .then((response) => response.text())
-    .then((data) => {
-      //Retrieve data from engine and parse
-      //Parse into table and add to DOM
-      let item_name = "";
-      let item_type = "";
-      let tokens = data.split("\n");
-      let tableHTML = `<table class="event-table"><thead><tr><th>Item Name</th><th>Item Type</th></tr></thead><tbody>`;
-      let tableContainer = document.getElementById("event-table");
-      tokens.forEach((item) => {
-        let token = item.split(" ");
-        token.forEach((i) => {
-          item_name = "";
-          item_type = "";
-          for (let i = 0; i < token.length - 1; i++) {
-            item_name += token[i] + " ";
-          }
-          item_type = token[token.length - 1];
-        });
-        tableHTML += `<tr><td>${item_name}</td><td>${item_type.trim()}</td></tr>`;
-      });
-      tableHTML += `</tbody></table>`;
-      //Populate DOM with table
-      tableContainer.innerHTML = tableHTML;
-      //Make table visible
-      tableContainer.classList.remove("hidden");
-      //Store outfit to day
-      selectedDay.dataset.outfit = tableHTML;
-    })
-    .catch((error) => console.error(error));
+  //Prompt the user for the formality (Casual, Business etc.)
+  let formalityCheck = document.getElementById("formalityCheck");
+  let formalityOverlay = document.getElementById("formalityOverlay");
+  formalityCheck.style.display = "block";
+  formalityOverlay.style.display = "block";
+
+  //Grab the name of the formality from whichever card they clicked
+  let cards = formalityCheck.querySelectorAll(".card-body");
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      weatherObject.style = card.textContent;
+      weatherObject.userEmail = email;
+      formalityCheck.style.display = "none";
+      formalityOverlay.style.display = "none";
+
+      selectedDay.classList.add("event-indicator");
+
+      //Send the weather object along with the formality to the rule engine to generate an outfit
+      fetch(
+        `http://localhost:8080/weather?data=` +
+          encodeURIComponent(JSON.stringify(weatherObject))
+      )
+        .then((response) => response.json())
+        .then((eclipse_data) => {
+          let itemIndex = 0;
+          //Fill the outfit cards with the element from the eclipse object
+          fillCards(eclipse_data[itemIndex]);
+
+          //Now that the clicked date has an outfit associated with it,
+          //Send the date and outfit to the database
+          let newDate = selectedDay.dataset.date;
+          let newOutfit = selectedDay.getAttribute("outfit");
+          const xhr = new XMLHttpRequest();
+          xhr.open("POST", "/add-day");
+          xhr.setRequestHeader(
+            "Content-Type",
+            "application/json;charset=UTF-8"
+          );
+          xhr.send(
+            JSON.stringify({
+              newDate,
+              newOutfit,
+              email,
+            })
+          );
+        })
+        .catch((error) => console.error(error));
+    });
+  });
 });
+
+//Fill the outfit cards
+const fillCards = (outfit) => {
+  //Bind the outfit to the given day
+  selectedDay.setAttribute("outfit", JSON.stringify(outfit));
+  let displayWrapper = document.getElementById("display-wrapper");
+  let cardColors = displayWrapper.querySelectorAll(".card-color");
+  let cardTitles = displayWrapper.querySelectorAll(".card-title");
+  let cardSubtitles = displayWrapper.querySelectorAll(".card-subtitle");
+  let cardTexts = displayWrapper.querySelectorAll(".card-text");
+
+  //Populate all cards with outfit information
+  //Outerwear
+  cardColors[0].style.backgroundColor = outfit.outerwear.item_color;
+  cardTitles[0].innerHTML = outfit.outerwear.item_name;
+  cardSubtitles[0].innerHTML =
+    outfit.outerwear.item_type + " | " + outfit.outerwear.item_subtype;
+  cardTexts[0].innerHTML = outfit.outerwear.item_description;
+  //Shirt
+  cardColors[1].style.backgroundColor = outfit.shirt.item_color;
+  cardTitles[1].innerHTML = outfit.shirt.item_name;
+  cardSubtitles[1].innerHTML =
+    outfit.shirt.item_type + " | " + outfit.shirt.item_subtype;
+  cardTexts[1].innerHTML = outfit.shirt.item_description;
+  //Pant
+  cardColors[2].style.backgroundColor = outfit.pants.item_color;
+  cardTitles[2].innerHTML = outfit.pants.item_name;
+  cardSubtitles[2].innerHTML =
+    outfit.pants.item_type + " | " + outfit.pants.item_subtype;
+  cardTexts[2].innerHTML = outfit.pants.item_description;
+  //Shoes
+  cardColors[3].style.backgroundColor = outfit.shoes.item_color;
+  cardTitles[3].innerHTML = outfit.shoes.item_name;
+  cardSubtitles[3].innerHTML =
+    outfit.shoes.item_type + " | " + outfit.shoes.item_subtype;
+  cardTexts[3].innerHTML = outfit.shoes.item_description;
+
+  //Show the display wrapper
+  document.querySelector("#display-wrapper").style.display = "block";
+};
 
 //Clear an outfit from a given day
 clearOutfitButton.addEventListener("click", () => {
+  //Remove event indicator, hide display, remove outfit and date from database
   selectedDay.classList.remove("event-indicator");
-  document.getElementById("event-table").classList.add("hidden");
+  document.getElementById("display-wrapper").style.display = "none";
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "/clear-day");
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  let date = selectedDay.dataset.date;
+  xhr.send(
+    JSON.stringify({
+      date,
+      email,
+    })
+  );
 });
 
 //Close overlay

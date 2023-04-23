@@ -20,12 +20,16 @@ body {
   color: #fff;
 }
 
+/* NAVB */
+
 
 body, html {
   height: 100%;
   margin: 0;
   font-family: Arial, sans-serif;
 }
+
+/* Calendar Header (Month) */
 
 #calendar-header {
   display: flex;
@@ -36,6 +40,8 @@ body, html {
   border-bottom: 1px solid #ddd;
 }
 
+/* Calendar Grid */
+
 #calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -43,6 +49,8 @@ body, html {
   gap: 1px;
   height: calc(100% - 50px);
 }
+
+/* Individual Day  */
 
 .day {
   display: flex;
@@ -53,9 +61,15 @@ body, html {
   border: 1px solid black;
 }
 
+.empty-day {
+  border: 1px solid transparent;
+}
+
 .hidden {
   display: none;
 }
+
+/* Event Overlay */
 
 #event-overlay {
   position: fixed;
@@ -67,7 +81,7 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 10;
 }
 
 #event-dialog {
@@ -76,6 +90,8 @@ body, html {
   border: 1px solid #ccc;
   min-width: 300px;
 }
+
+/* Outfit Table */
 
 #event-table {
   width: 100%;
@@ -89,6 +105,8 @@ body, html {
   padding: 5px;
   text-align: left;
 }
+
+/* Outfit Table */
 
 #weekdays-header {
   display: flex;
@@ -108,19 +126,10 @@ body, html {
 
 /* ... other styles ... */
 
-.empty-day {
-  border: 1px solid transparent;
-}
+
+/* Event Indicator */
 
 .event-indicator::before {
-  /* content: '';
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  width: 10px;
-  height: 10px;
-  background-color: #f00;
-  border-radius: 50%; */
   content: "";
   display: block;
   position: absolute;
@@ -142,29 +151,28 @@ body, html {
   font-size: 1.2rem;
 }
 
-.high {
+/* .high {
   color: #f00;
 }
 
 .low {
   color: #00f;
-}
+} */
 
-.weather-image {
+/* .weather-image {
   width: 50px;
   height: 50px;
-}
+} */
 
-.condition {
+/* .condition {
   font-size: 1.5rem;
   font-weight: bold;
-}
+} */
 
 .overlay-btn {
   background-color: #f7dc6f; /* Set background color to a shiny yellow */
   color: white; /* Set text color to white */
   border: none; /* Remove button border */
-  border-radius: 40%; /* Make the button round */
   padding: 15px 25px; /* Add some padding to the button */
   margin: 15px 25px;
   font-size: 16px; /* Set the font size */
@@ -175,6 +183,21 @@ body, html {
 
 .overlay-btn:hover {
   background-color: #e8c547; /* Change the background color on hover to a darker yellow */
+}
+
+.formalityOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 20;
+}
+
+.card-color {
+  height: 30px;
 }
 
 
