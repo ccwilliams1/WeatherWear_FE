@@ -7,6 +7,7 @@ const eventOverlay = document.getElementById("event-overlay");
 const eventDate = document.getElementById("event-date");
 const addOutfitButton = document.getElementById("add-outfit");
 const clearOutfitButton = document.getElementById("clear-outfit");
+const pasteOutfitButton = document.getElementById("paste-outfit");
 const closeOutfitButton = document.getElementById("close-outfit");
 const weatherData = JSON.parse(localStorage.getItem("weatherData"));
 let weatherObject;
@@ -113,7 +114,10 @@ async function renderCalendar(month, year) {
     Object.entries(days).forEach(([key, value]) => {
       if (value.date == day.dataset.date) {
         selectedDay = day;
-        selectedDay.setAttribute("outfit", JSON.stringify(value.outfit));
+        selectedDay.setAttribute(
+          "generatedOutfit",
+          JSON.stringify(value.outfit)
+        );
         day.classList.add("event-indicator");
       }
     });
@@ -133,7 +137,7 @@ async function renderCalendar(month, year) {
       new Date(year, month, i) >=
         new Date(currentYearIndex, currentMonthIndex, currentDay)
     ) {
-      day.style.backgroundColor = "#ED9AA2";
+      day.style.backgroundColor = "#e8e8ab";
     }
 
     //What to do when a day box is clicked
@@ -146,8 +150,9 @@ async function renderCalendar(month, year) {
 
       //If the day in question already has an outfit generated for it, fill that outfit
       //Otherwise hide the display in case it was already visible
-      if (selectedDay.getAttribute("outfit")) {
-        fillCards(JSON.parse(selectedDay.getAttribute("outfit")));
+      if (selectedDay.getAttribute("generatedOutfit")) {
+        fillCards(JSON.parse(selectedDay.getAttribute("generatedOutfit")));
+        document.querySelector("#clear-outfit").style.display = "inline-block";
       } else {
         document.querySelector("#display-wrapper").style.display = "none";
       }
@@ -160,10 +165,13 @@ async function renderCalendar(month, year) {
 
       //Hide weather container by default
       document.querySelector("#weather-container").style.display = "none";
+      // document.querySelector("#paste-outfit").style.display = "block";
+      document.querySelector("#add-outfit").style.display = "none";
 
       //If the two days are within a week apart, populate the event dialog with weather data for that given day
       if (differenceInDays >= 0 && differenceInDays <= 6) {
         document.querySelector("#weather-container").style.display = "block";
+        document.querySelector("#add-outfit").style.display = "inline-block";
         const forecastedDay =
           weatherData.forecast.forecastday[differenceInDays].day;
         //console.log(forecastedDay);
@@ -248,7 +256,7 @@ addOutfitButton.addEventListener("click", () => {
           //Now that the clicked date has an outfit associated with it,
           //Send the date and outfit to the database
           let newDate = selectedDay.dataset.date;
-          let newOutfit = selectedDay.getAttribute("outfit");
+          let newOutfit = selectedDay.getAttribute("generatedOutfit");
           const xhr = new XMLHttpRequest();
           xhr.open("POST", "/add-day");
           xhr.setRequestHeader(
@@ -271,7 +279,7 @@ addOutfitButton.addEventListener("click", () => {
 //Fill the outfit cards
 const fillCards = (outfit) => {
   //Bind the outfit to the given day
-  selectedDay.setAttribute("outfit", JSON.stringify(outfit));
+  selectedDay.setAttribute("generatedOutfit", JSON.stringify(outfit));
   let displayWrapper = document.getElementById("display-wrapper");
   let cardColors = displayWrapper.querySelectorAll(".card-color");
   let cardTitles = displayWrapper.querySelectorAll(".card-title");
@@ -312,6 +320,7 @@ const fillCards = (outfit) => {
 clearOutfitButton.addEventListener("click", () => {
   //Remove event indicator, hide display, remove outfit and date from database
   selectedDay.classList.remove("event-indicator");
+  selectedDay.removeAttribute("generatedOutfit");
   document.getElementById("display-wrapper").style.display = "none";
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "/clear-day");
@@ -328,6 +337,29 @@ clearOutfitButton.addEventListener("click", () => {
 //Close overlay
 closeOutfitButton.addEventListener("click", () => {
   eventOverlay.style.display = "none";
+});
+
+//Paste Outfit
+pasteOutfitButton.addEventListener("click", () => {
+  let outfit = JSON.parse(localStorage.getItem("savedOutfit"));
+  console.log(outfit);
+  fillCards(outfit);
+  selectedDay.classList.add("event-indicator");
+  //Now that the clicked date has an outfit associated with it,
+  //Send the date and outfit to the database
+  let newDate = selectedDay.dataset.date;
+  let newOutfit = selectedDay.getAttribute("generatedOutfit");
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "/add-day");
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send(
+    JSON.stringify({
+      newDate,
+      newOutfit,
+      email,
+    })
+  );
+  document.querySelector("#clear-outfit").style.display = "inline-block";
 });
 
 //Render calendar

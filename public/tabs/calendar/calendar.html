@@ -45,7 +45,10 @@
   <!-- Event Overlay -->
   <div id="event-overlay" style="display:none">
       <div id="event-dialog">
-          <h3 id="event-date"></h3>
+          <div id="header" class="d-flex justify-content-between align-items-center">
+            <h3 id="event-date"></h3>
+            <button id="close-outfit" class="overlay-btn">Close</button>
+          </div>
           <div class="col">
             <!-- Weather Container -->
             <div class="container" id="weather-container" style="display:none; align-items: center;">
@@ -111,21 +114,9 @@
               </div>
             </div>
           </div>
-          <!-- <table id="event-table" class="hidden">
-              <thead>
-                  <tr>
-                      <th>Time</th>
-                      <th>Event</th>
-                  </tr>
-              </thead>
-              <tbody>
-              </tbody>
-          </table> -->
-          <!-- Outfit Table -->
-          <!-- Button Container -->
+          <button id="paste-outfit" class="overlay-btn">Paste Outfit</button>
           <button id="add-outfit" class="overlay-btn">Generate Outfit</button>
           <button id="clear-outfit" class="overlay-btn">Clear Outfit</button>
-          <button id="close-outfit" class="overlay-btn">Close</button>
           <!-- Button Container -->
       </div>
   </div>
