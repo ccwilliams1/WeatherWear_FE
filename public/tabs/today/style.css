@@ -21,50 +21,6 @@ body {
 }
 /* NAVBAR */
 
-/* Result Table TBD */
-
-.styled-table {
-  border-collapse: collapse;
-  margin-top: 5%;
-  margin-left: 35%;
-  font-size: 0.9em;
-  font-family: sans-serif;
-  min-width: 400px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-  padding-left: 20%;
-
-}
-
-.styled-table thead tr {
-  background-color: #254355;
-  color: #ffffff;
-  text-align: left;
-}
-
-.styled-table th,
-.styled-table td {
-    padding: 12px 15px
-}
-
-.styled-table tbody tr {
-  border-bottom: 1px solid #dddddd;
-}
-
-.styled-table tbody tr:nth-of-type(even) {
-  background-color: #f3f3f3;
-}
-
-.styled-table tbody tr:last-of-type {
-  border-bottom: 2px solid #254355;
-}
-
-.styled-table tbody tr.active-row {
-  font-weight: bold;
-  color: #009879;
-}
-
-/* Result Table TBD */
-
 
 /* Formality Check */
 body {
@@ -117,7 +73,7 @@ body {
 /* Display */
 
 #display-wrapper {
-  padding: 10% 2%;
+  padding: 10% 2% 2% 2%;
   display: flex;
   flex-direction : column;
   align-items: center;
@@ -129,23 +85,64 @@ body {
   height: 30px;
 }
 
-#new-content-wrapper .card-title {
+#display-wrapper .card-title {
   font-weight: 200 !important
 }
 
-/* .outerwear-color {
-  background-color: black;
+#prev {
+  margin-right: 30px;
 }
 
-.shirt-color {
-  background-color: black;
+#next {
+  margin-left: 30px;
 }
 
-.pants-color {
-  background-color: black;
+
+
+/* Loader */
+
+.loader {
+  width: 48px;
+  height: 48px;
+  background: #457b9d;
+  display: block;
+  margin: 20px auto;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotationBack 1s ease-in-out infinite reverse;
+}
+.loader::before {
+  content: '';  
+  box-sizing: border-box;
+  left: 0;
+  top: 0;
+  transform: rotate(45deg);
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  background: #457b9d;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+.loader::after {
+  content: '';  
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: #FFF;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+@keyframes rotationBack {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
 }
 
-.shoes-color {
-  background-color: black;
-} */
-/* Display */
+/* Loader */

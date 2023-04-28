@@ -51,12 +51,20 @@
   </div>
   </div>
 </div>
-<div id="wardrobe-table">
-
-</div>
+  <!-- View My Wardrobe Search Bar -->
+  <div  id = "search-container" class="container" style="display: none; margin-bottom: 10px;">
+    <div class="row justify-content-center mt-5">
+      <div class="col-lg-6 col-md-8">
+          <input id = "searchBar" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      </div>
+    </div>
+  </div>
+  <!-- View My Wardrobe Search Bar -->
+  <div id="wardrobe-table">
+  </div>
 <!-- Form to add a new item -->
 <div>
-  <form id="add-item-form">
+  <form id="add-item-form" enctype="multipart/form-data">
     <div class="form-row">
       <div class="form-column">
         <label for="name">Name</label>
@@ -76,8 +84,8 @@
         <label for="subtype">Subtype</label>
         <select id="subtype-add" name="subtype">
           <option value="">Select Subtype</option>
-          <!-- Add more options as needed -->
         </select>
+
       </div>
       <div class="form-column">
         <label for="size">Size</label>
@@ -85,6 +93,8 @@
   
         <label for="description">Description</label>
         <textarea id="description" name="description" rows="5" required></textarea>
+
+
       </div>
       <div class="form-column">
         <label>Dress Style</label>
@@ -99,13 +109,25 @@
   
         <label for="material">Material</label>
         <input type="text" id="material" name="material">
+
       </div>
     </div>
     <div class="button-container">
-      <button type="submit">Add to Database</button>
+      <!-- <button class="btn btn-danger" id="removeImage" disabled>Remove Image</button> -->
+
+      <button class="btn btn-success btn-lg" type="submit" style="margin: 0px 15%;">Add to Database</button>
+
+      <!-- <label class="btn btn-primary" for="uploadImage">
+        Upload Image
+      </label>
+      <input type="file" id="uploadImage" accept="image/*" style="display:none;"> -->
     </div>
   </form>
 </div>
+  <!-- <div class="container full-height d-flex align-items-center justify-content-center"> 
+    <img id="preview" src="" alt="Uploaded image preview" style="display:none; max-width: 70%; max-height: 70%;">
+  </div> -->
+
 <!-- Form to edit a new item -->
 <div>
   <form id="edit-item-form">
@@ -154,10 +176,23 @@
       </div>
     </div>
     <div class="button-container">
-      <button type="submit" class="btn btn-danger">Submit</button>
-      <button id="cancel" type="button" class="btn btn-danger">Cancel</button>    </div>
+      <!-- <button class="btn btn-danger" id="removeImageEdit" disabled>Remove Image</button> -->
+      <button id="submit" class="btn btn-danger">Submit</button>
+      <button id="cancel" type="button" class="btn btn-danger">Cancel</button>   
+      <button id="delete" type="button" class="btn btn-danger">Delete</button> 
+      <!-- <label class="btn btn-primary" for="uploadImage">
+        Upload Image
+      </label>
+      <input type="file" id="uploadImageEdit" accept="image/*" style="display:none;">    -->
+    </div>
+    
+
   </form>
-  </form>
-</div>
+  <!-- <div class="container full-height d-flex align-items-center justify-content-center"> 
+    <img id="previewEdit" src="" alt="Uploaded image preview" style="display:none; max-width: 70%; max-height: 70%;">
+  </div> -->
+  <div id="overlay" class="overlay"></div>
+
+
 
    

@@ -1,6 +1,7 @@
 /* MY WARDROBE SCRIPT */
 let addItemForm;
 let editItemForm;
+let clickedId = 0;
 
 //When the Add Item to Closet Button is pressed
 const handleAdd = () => {
@@ -8,7 +9,45 @@ const handleAdd = () => {
   document.getElementById("wardrobe-buttons").style.display = "none";
   addItemForm = document.querySelector("#add-item-form");
   addItemForm.style.display = "block";
+  // const uploadImage = document.getElementById("uploadImage");
+  // const uploadImageEdit = document.getElementById("uploadImageEdit");
+  // const removeImage = document.getElementById("removeImage");
+  // const removeImageEdit = document.getElementById("removeImageEdit");
+
+  // const preview = document.getElementById("preview");
+  // const previewEdit = document.getElementById("preview");
+
+  // let imageFile = null;
   populateSubType("type-add", "subtype-add");
+
+  // // //Listener for image upload
+  // uploadImage.addEventListener("change", function (event) {
+  //   //Grab file from users computer
+  //   imageFile = event.target.files[0];
+  //   console.log(imageFile);
+
+  //   if (imageFile) {
+  //     const reader = new FileReader();
+  //     reader.onload = function (e) {
+  //       //Set src of image to image
+  //       preview.src = e.target.result;
+  //       preview.style.display = "block";
+  //       removeImage.disabled = false;
+  //     };
+  //     reader.readAsDataURL(imageFile);
+  //   } else {
+  //     preview.style.display = "none";
+  //     removeImage.disabled = true;
+  //   }
+  // });
+
+  // // //Listener for remove image
+  // removeImage.addEventListener("click", function () {
+  //   preview.src = "";
+  //   preview.style.display = "none";
+  //   uploadImage.value = "";
+  //   removeImage.disabled = true;
+  // });
 
   // Handle form submit
   addItemForm.addEventListener("submit", (event) => {
@@ -54,15 +93,49 @@ const handleAdd = () => {
   });
 };
 
+const handleUpload = () => {};
+
 //When the Edit Item button is pressed
 const handleEdit = (event, id) => {
+  console.log(event);
+  clickedId = id;
+  //Make form visible
   editItemForm = document.querySelector("#edit-item-form");
   editItemForm.style.display = "block";
+  //Get current scroll position
+  const scrollY = window.scrollY;
+  const windowHeight = window.innerHeight;
+  //Set form position to current scroll position
+  editItemForm.style.top = `${scrollY + windowHeight / 4}px`;
+  editItemForm.style.left = "50%";
+  editItemForm.style.transform = "translateX(-50%)";
+  //Lock scroll
+  document.body.style.overflow = "hidden";
+  //Make overlay visible
+  document.getElementById("overlay").style.display = "block";
 
   // When the form cancel button is pressed
   document.querySelector("#cancel").addEventListener("click", () => {
     console.log("click");
+    //Hide form
     editItemForm.style.display = "none";
+    //Unlock Scroll
+    document.body.style.overflow = "auto";
+    //Hide overlay
+    document.getElementById("overlay").style.display = "none";
+  });
+
+  console.log(id, clickedId);
+
+  document.querySelector("#delete").addEventListener("click", () => {
+    handleDelete(event, clickedId);
+    console.log("Deleted ", id);
+    //Hide form
+    editItemForm.style.display = "none";
+    //Unlock Scroll
+    document.body.style.overflow = "auto";
+    //Hide overlay
+    document.getElementById("overlay").style.display = "none";
   });
 
   //Retrieve the item contents from the database
@@ -90,8 +163,21 @@ const handleEdit = (event, id) => {
           ? (checkbox.checked = true)
           : (checkbox.checked = false);
       });
+      // if (data[0].image_file) {
+      //   const blob = data[0].image_file;
+      //   console.log(blob);
+      //   const imageURL = URL.createObjectURL(blob);
+      //   previewEdit.src = imageURL;
+      //   previewEdit.src = e.target.result;
+      //   previewEdit.style.display = "block";
+      //   removeImageEdit.disabled = false;
+      // } else {
+      //   previewEdit.style.display = "none";
+      //   removeImageEdit.disabled = true;
+      // }
     });
 
+  document.querySelector("#submit").addEventListener("click", () => {});
   //When the form submit button is pressed
   editItemForm.addEventListener("submit", (event) => {
     //Prevent page from refreshing
@@ -149,6 +235,9 @@ const handleDelete = (event, id) => {
 //When view my closet is pressed
 const handleView = () => {
   document.getElementById("wardrobe-buttons").style.display = "none";
+  let searchBar = document.getElementById("searchBar");
+  let searchContainer = document.getElementById("search-container");
+  searchContainer.style.display = "block";
   let userEmail = localStorage.getItem("email");
 
   // Send a GET request to the server and handle the response
@@ -161,15 +250,60 @@ const handleView = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      // Build HTML table from response
-      let tableHtml = "<table>";
-      tableHtml += "<tr><th>Name</th><th>Type</th></tr>";
+      let previousType = "";
+      let index = 0;
+      let wardrobeGrid = `<div class="container"><div class="row d-flex justify-content-center">`;
       data.forEach((item) => {
-        tableHtml += `<tr><td>${item.item_name}</td><td>${item.item_type}</td><td><btn class="edit-btn" onclick="handleEdit(event,${item.wardrobeid})">Edit</btn></td><td><btn class="delete-btn" onclick="handleDelete(event, ${item.wardrobeid})">Delete</btn></td></tr>`;
+        if (index !== 0 && previousType !== item.item_type) {
+          wardrobeGrid +=
+            '</div><hr><div class="row d-flex justify-content-center">'; // You can replace <hr> with <br> if you prefer
+          index = 0;
+        }
+
+        if (index % 5 === 0 && index !== 0) {
+          wardrobeGrid +=
+            '</div><div class="row d-flex justify-content-center">';
+        }
+        wardrobeGrid += ` <div class="col-md-2">
+                 <div class="card" style="margin: 10px 0px" onclick = "handleEdit(event, ${item.wardrobeid})">
+          <div class="card-color" style="background-color: ${item.item_color}; height: 15px" > </div>
+          <div class="card-body" style = "height: 200px">
+            <h5 class="card-title">${item.item_name}</h5>
+            <p class="card-subtitle">${item.item_type} | ${item.item_subtype}</p>
+            <p class="card-text">${item.item_description}</p>
+          </div>
+          </div>
+          </div>`;
+        index += 1;
+        previousType = item.item_type;
       });
-      tableHtml += "</table>";
-      //Update the page with the table
-      document.getElementById("wardrobe-table").innerHTML = tableHtml;
+
+      wardrobeGrid += "</div></div>";
+      document.getElementById("wardrobe-table").innerHTML = wardrobeGrid;
+    })
+    .then(() => {
+      let cards = document.querySelectorAll(".card");
+      searchBar.addEventListener("input", () => {
+        if (!searchBar.value) {
+          cards.forEach((card) => {
+            card.style.display = "block";
+          });
+        }
+
+        if (searchBar.value.length > 1) {
+          cards.forEach((card, index) => {
+            const h5 = card.querySelector("h5");
+            console.log(h5.textContent, searchBar.value);
+            if (
+              !h5.textContent
+                .toLowerCase()
+                .includes(searchBar.value.toLowerCase())
+            ) {
+              cards[index].style.display = "none";
+            }
+          });
+        }
+      });
     })
     .catch((error) => console.error(error));
 };
@@ -201,14 +335,21 @@ const populateSubType = (typeField, subtypeField) => {
       "Slacks",
       "Sweatpants",
     ],
-    Shoes: ["Boots", "Dress shoes", "Sandals", "Slippers", "Sneakers"],
+    Shoes: [
+      "Dress shoes",
+      "Sandals",
+      "Slippers",
+      "Rain Boots",
+      "Sneakers",
+      "Stylish Boots",
+      "Winter Boots",
+    ],
     Outerwear: [
       "Blazer",
       "Bomber jacket",
       "Cardigan",
       "Denim jacket",
       "Leather jacket",
-      "Overcoat",
       "Parka",
       "Pea coat",
       "Puffer jacket",
