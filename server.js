@@ -225,11 +225,6 @@ app.post("/edit-item", (req, res) => {
   });
 });
 
-//Lets you know youre successfully running on the localhost
-app.listen(listening_port, () => {
-  console.log(`Server listening at http://localhost:${listening_port}`);
-});
-
 //This creates an end-point called 'days' that associates an outfit with a given date
 app.post("/add-day", (req, res) => {
   //This is the connection to the wardrobe database within postgres

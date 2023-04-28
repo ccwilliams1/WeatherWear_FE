@@ -61,8 +61,8 @@
       </div>
     </div>
   <!-- Formality Container -->
+  <span id="loader" class="loader" style="display: none;"></span>
   <!-- Display -->
-    <!-- Display -->
     <div id="display-wrapper" class="content-wrapper" style="display: none;">
       <div class="row">
         <div class="col-md-6">
@@ -109,6 +109,15 @@
         </div>
       </div>
     </div>
+
+    <div id="three-btn-container" class="container d-flex justify-content-center align-items-center" style="display: none !important;">
+      <div class="btn-group" role="group">
+        <button id="prev" type="button" class="btn btn-lg btn-danger">Previous</button>
+        <button id="save" type="button" class="btn btn-lg btn-primary">Save</button>
+        <button id="next" type="button" class="btn btn-lg btn-danger">Next</button>
+      </div>
+    </div>
+    
   <!-- Display -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
@@ -117,10 +126,6 @@
   </body>
 </html>
 
-
-
-
-<div class="btn btn-primary" onclick="generateOutfit()">Click</div>
 
 <div id="table-container"></div>
 
