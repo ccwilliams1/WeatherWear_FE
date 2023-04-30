@@ -244,7 +244,7 @@ addOutfitButton.addEventListener("click", () => {
 
       //Send the weather object along with the formality to the rule engine to generate an outfit
       fetch(
-        `http://localhost:8080/weather?data=` +
+        `http://100.26.157.97:8080/weather?data=` +
           encodeURIComponent(JSON.stringify(weatherObject))
       )
         .then((response) => response.json())
