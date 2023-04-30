@@ -137,6 +137,14 @@ input[type="checkbox"] {
   z-index: 1000;
 }
 
+#previewEdit{
+  position: absolute;
+  margin: 0 auto;
+  border: 1px double #f2f2f2;
+  display: none;
+  z-index: 1000;
+}
+
 .overlay {
   display: none;
   position: fixed;

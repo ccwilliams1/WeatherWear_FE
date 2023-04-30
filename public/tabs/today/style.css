@@ -146,3 +146,23 @@ body {
 }
 
 /* Loader */
+
+#previewImage{
+  position: absolute;
+  margin: 0 auto;
+  border: 1px double #f2f2f2;
+  display: none;
+  z-index: 1000;
+}
+
+.imageOverlay {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 900;
+}
+
