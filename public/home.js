@@ -25,6 +25,9 @@ let fillWeatherData = (data) => {
 
   // Add the weather HTML to the weather container element
   document.getElementById("loader").style.display = "none";
+  document.getElementById(
+    "welcome"
+  ).innerHTML = `Welcome to WeatherWear ${localStorage.getItem("name")}!`;
   weatherContainer.innerHTML = weatherHTML;
 
   //Fill cards

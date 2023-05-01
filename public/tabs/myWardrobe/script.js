@@ -15,39 +15,39 @@ const handleAdd = () => {
   // const removeImageEdit = document.getElementById("removeImageEdit");
 
   // const preview = document.getElementById("preview");
-  // const previewEdit = document.getElementById("preview");
+  const previewEdit = document.getElementById("preview");
 
   // let imageFile = null;
   populateSubType("type-add", "subtype-add");
 
-  // // //Listener for image upload
-  // uploadImage.addEventListener("change", function (event) {
-  //   //Grab file from users computer
-  //   imageFile = event.target.files[0];
-  //   console.log(imageFile);
+  // //Listener for image upload
+  uploadImage.addEventListener("change", function (event) {
+    //Grab file from users computer
+    imageFile = event.target.files[0];
+    console.log(imageFile);
 
-  //   if (imageFile) {
-  //     const reader = new FileReader();
-  //     reader.onload = function (e) {
-  //       //Set src of image to image
-  //       preview.src = e.target.result;
-  //       preview.style.display = "block";
-  //       removeImage.disabled = false;
-  //     };
-  //     reader.readAsDataURL(imageFile);
-  //   } else {
-  //     preview.style.display = "none";
-  //     removeImage.disabled = true;
-  //   }
-  // });
+    if (imageFile) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        //Set src of image to image
+        preview.src = e.target.result;
+        preview.style.display = "block";
+        removeImage.disabled = false;
+      };
+      reader.readAsDataURL(imageFile);
+    } else {
+      preview.style.display = "none";
+      removeImage.disabled = true;
+    }
+  });
 
-  // // //Listener for remove image
-  // removeImage.addEventListener("click", function () {
-  //   preview.src = "";
-  //   preview.style.display = "none";
-  //   uploadImage.value = "";
-  //   removeImage.disabled = true;
-  // });
+  // //Listener for remove image
+  removeImage.addEventListener("click", function () {
+    preview.src = "";
+    preview.style.display = "none";
+    uploadImage.value = "";
+    removeImage.disabled = true;
+  });
 
   // Handle form submit
   addItemForm.addEventListener("submit", (event) => {
@@ -74,22 +74,39 @@ const handleAdd = () => {
 
     // Send form data to the database
     let userEmail = localStorage.getItem("email");
+
+    let formData = new FormData();
+    formData.append("name", name);
+    formData.append("type", type);
+    formData.append("subtype", subtype);
+    formData.append("size", size);
+    formData.append("description", description);
+    formData.append("dressStyles", JSON.stringify(dressStyles));
+    formData.append("color", color);
+    formData.append("material", material);
+    formData.append("userEmail", userEmail);
+    let imageFileInput = document.getElementById("uploadImage");
+    if (imageFileInput.files.length > 0) {
+      formData.append("imageFile", imageFileInput.files[0]);
+    }
+
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "/add-item");
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.send(
-      JSON.stringify({
-        name,
-        type,
-        subtype,
-        size,
-        description,
-        dressStyles,
-        color,
-        material,
-        userEmail,
-      })
-    );
+    //xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(formData);
+    // xhr.send(
+    //   JSON.stringify({
+    //     name,
+    //     type,
+    //     subtype,
+    //     size,
+    //     description,
+    //     dressStyles,
+    //     color,
+    //     material,
+    //     userEmail,
+    //   })
+    // );
   });
 };
 
@@ -119,6 +136,7 @@ const handleEdit = (event, id) => {
     console.log("click");
     //Hide form
     editItemForm.style.display = "none";
+    previewEdit.style.display = "none";
     //Unlock Scroll
     document.body.style.overflow = "auto";
     //Hide overlay
@@ -163,6 +181,23 @@ const handleEdit = (event, id) => {
           ? (checkbox.checked = true)
           : (checkbox.checked = false);
       });
+
+      if (data[0].base64_image) {
+        console.log("Ya boi");
+        const base64Image = data[0].base64_image;
+        previewEdit.src = `data:image/jpeg;base64,${base64Image}`;
+        previewEdit.style.display = "block";
+        // editItemForm.style.top = "0px";
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        editItemForm.style.top = `${scrollY + windowHeight / 11}px`;
+        document.body.style.overflow = "visible";
+        //Set form position to current scroll position
+        previewEdit.style.top = `${scrollY + windowHeight / 1.75}px`;
+        previewEdit.style.left = "50%";
+        previewEdit.style.transform = "translateX(-50%)";
+      }
+
       // if (data[0].image_file) {
       //   const blob = data[0].image_file;
       //   console.log(blob);
@@ -204,7 +239,6 @@ const handleEdit = (event, id) => {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "/edit-item");
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    console.log(color);
     xhr.send(
       JSON.stringify({
         name,

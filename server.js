@@ -1,6 +1,8 @@
 //Set up express to run html,css, and js on localhost
 const express = require("express");
 const bodyParser = require("body-parser");
+const multer = require("multer");
+const upload = multer();
 const { Client } = require("pg");
 
 //port we want to run on
@@ -108,7 +110,8 @@ app.post("/get-item", (req, res) => {
     database: "postgres",
   });
   client.connect();
-  let query = "SELECT * FROM closet WHERE wardrobeid = $1";
+  let query =
+    "SELECT *, encode(image_file, 'base64') as base64_image FROM closet WHERE wardrobeid = $1";
   let values = [req.body.id];
   client.query(query, values, (err, result) => {
     if (err) {
@@ -122,7 +125,7 @@ app.post("/get-item", (req, res) => {
 });
 
 //This creates an end-point called 'add-item' that adds an item to the closet table
-app.post("/add-item", (req, res) => {
+app.post("/add-item", upload.single("imageFile"), (req, res) => {
   //This is the connection to the wardrobe database within postgres
   const client = new Client({
     user: "postgres",
@@ -134,8 +137,8 @@ app.post("/add-item", (req, res) => {
   //This is the connection to the wardrobe database within postgres
   client.connect();
   const query = `
-    INSERT INTO  closet (item_name, item_type, item_subtype, item_description, item_size, item_color, item_material, dress_style, user_email)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    INSERT INTO  closet (item_name, item_type, item_subtype, item_description, item_size, item_color, item_material, dress_style, user_email, image_file)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
   `;
   const values = [
     req.body.name,
@@ -147,6 +150,7 @@ app.post("/add-item", (req, res) => {
     req.body.material,
     req.body.dressStyles,
     req.body.userEmail,
+    req.file && req.file.buffer,
   ];
 
   client.query(query, values, (err, result) => {
