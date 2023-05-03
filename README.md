@@ -17,5 +17,4 @@ to install the dependencies manually. So for example: if it's telling you "modul
 
 If you navigate in your browser to localhost:*** where the *** is the port number displayed in the terminal, you should see the interface
 
-In your web browser, type "localhost:3000" to view the interface
 
