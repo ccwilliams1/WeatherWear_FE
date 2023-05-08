@@ -112,14 +112,15 @@ const createWeatherObject = (data) => {
     high: day.maxtemp_f,
     low: day.mintemp_f,
     condition: day.condition.text,
-    // condition: "Patchy rain possible",
+    // condition: "Patchy rain Possible",
+    // condition: "Sunny",
     chance_of_rain: day.daily_chance_of_rain,
     chance_of_snow: day.daily_chance_of_snow,
     humidity: day.avghumidity,
     wind_speed: day.maxwind_mph,
     uv_index: day.uv,
     average: Math.ceil(day.avgtemp_f),
-    // average: 95,
+    // average: 15,
   };
   console.log(weatherObject);
   localStorage.setItem("weatherObject", JSON.stringify(weatherObject));

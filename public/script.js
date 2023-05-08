@@ -11,12 +11,33 @@ signInOverlay.addEventListener("click", () => {
   container.classList.remove("right-panel-active");
 });
 
-function handleSignUp() {
+async function handleSignUp() {
   const form = document.getElementById("signupForm");
   const name = form.elements["name"].value;
   const email = form.elements["email"].value;
   const password = form.elements["password"].value;
   // Send form data to the database
+  try {
+    const response = await fetch("/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password }),
+    });
+
+    const data = await response.json();
+    console.log(data);
+
+    if (!data.success) {
+      document.getElementById("errorTextTwo").innerHTML = data.message;
+    } else if (data.success) {
+      document.getElementById("errorTextTwo").innerHTML =
+        "User created successfully.";
+    }
+  } catch (error) {
+    console.error("Error during login:", error);
+  }
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "/signup");
   xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");

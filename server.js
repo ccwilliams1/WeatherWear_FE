@@ -7,7 +7,7 @@ const { Client } = require("pg");
 
 //port we want to run on
 const app = express();
-const listening_port = 3000;
+const listening_port = process.env.PORT || 3000;
 
 //This tells express to run everything in the 'public' folder..which is the whole interface
 app.use(express.static("public"));
@@ -16,7 +16,7 @@ app.use(express.static("public"));
 app.use(bodyParser.json());
 
 app.post("/signup", async (req, res) => {
-  //This is the connection to the wardrobe database within postgres
+  // This is the connection to the wardrobe database within postgres
   const client = new Client({
     user: "postgres",
     password: "password",
@@ -27,14 +27,25 @@ app.post("/signup", async (req, res) => {
   client.connect();
 
   const { name, email, password } = req.body;
-  //const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
-    await client.query(
-      "INSERT INTO user_data (name, email, password) VALUES ($1, $2, $3)",
-      [name, email, password]
+    // Check if the email already exists in the database
+    const emailCheckResult = await client.query(
+      "SELECT * FROM user_data WHERE email = $1",
+      [email]
     );
-    res.status(201).send({ message: "User created successfully." });
+
+    if (emailCheckResult.rowCount > 0) {
+      // Email already exists, send a message to the client
+      res.status(400).send({ message: "Email address already exists." });
+    } else {
+      // Email does not exist, proceed with user registration
+      await client.query(
+        "INSERT INTO user_data (name, email, password) VALUES ($1, $2, $3)",
+        [name, email, password]
+      );
+      res.status(201).send({ message: "User created successfully." });
+    }
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).send({ message: "Error creating user." });

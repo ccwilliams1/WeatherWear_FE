@@ -43,10 +43,8 @@ async function generateOutfit() {
     document.getElementById("prev").addEventListener("click", () => {
       itemIndex > 0 ? (itemIndex -= 1) : (itemIndex = size - 1);
       fillCards(eclipse_data, itemIndex);
-      console.log("Prev");
     });
     document.getElementById("save").addEventListener("click", () => {
-      console.log("Save");
       localStorage.setItem("savedOutfit", JSON.stringify(currentOutfit));
       console.log(JSON.parse(localStorage.getItem("outfit")));
     });
@@ -55,7 +53,6 @@ async function generateOutfit() {
       console.log(itemIndex);
       console.log(eclipse_data[itemIndex]);
       fillCards(eclipse_data, itemIndex);
-      console.log("Next");
     });
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -77,7 +74,7 @@ const fillCards = (eclipse_data, itemIndex) => {
   Object.entries(outfit).forEach(([key, value], garmentIndex) => {
     if (garmentIndex != 4) {
       cardTitles[garmentIndex].setAttribute("id", value.wardrobeid);
-      cardColors[garmentIndex].style.backgroundColor = value.item_color;
+      cardColors[garmentIndex].style.background = value.item_color;
       cardTitles[garmentIndex].innerHTML = value.item_name;
       cardSubtitles[garmentIndex].innerHTML =
         value.item_type + " | " + value.item_subtype;
@@ -110,7 +107,6 @@ cards.forEach((card) => {
       .then((response) => response.json())
       .then((data) => {
         if (data[0].base64_image) {
-          console.log("Ya boi");
           imageOverlay.style.display = "block";
           const base64Image = data[0].base64_image;
           previewImage.src = `data:image/jpeg;base64,${base64Image}`;

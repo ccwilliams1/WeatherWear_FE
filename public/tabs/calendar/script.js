@@ -288,25 +288,25 @@ const fillCards = (outfit) => {
 
   //Populate all cards with outfit information
   //Outerwear
-  cardColors[0].style.backgroundColor = outfit.outerwear.item_color;
+  cardColors[0].style.background = outfit.outerwear.item_color;
   cardTitles[0].innerHTML = outfit.outerwear.item_name;
   cardSubtitles[0].innerHTML =
     outfit.outerwear.item_type + " | " + outfit.outerwear.item_subtype;
   cardTexts[0].innerHTML = outfit.outerwear.item_description;
   //Shirt
-  cardColors[1].style.backgroundColor = outfit.shirt.item_color;
+  cardColors[1].style.background = outfit.shirt.item_color;
   cardTitles[1].innerHTML = outfit.shirt.item_name;
   cardSubtitles[1].innerHTML =
     outfit.shirt.item_type + " | " + outfit.shirt.item_subtype;
   cardTexts[1].innerHTML = outfit.shirt.item_description;
   //Pant
-  cardColors[2].style.backgroundColor = outfit.pants.item_color;
+  cardColors[2].style.background = outfit.pants.item_color;
   cardTitles[2].innerHTML = outfit.pants.item_name;
   cardSubtitles[2].innerHTML =
     outfit.pants.item_type + " | " + outfit.pants.item_subtype;
   cardTexts[2].innerHTML = outfit.pants.item_description;
   //Shoes
-  cardColors[3].style.backgroundColor = outfit.shoes.item_color;
+  cardColors[3].style.background = outfit.shoes.item_color;
   cardTitles[3].innerHTML = outfit.shoes.item_name;
   cardSubtitles[3].innerHTML =
     outfit.shoes.item_type + " | " + outfit.shoes.item_subtype;

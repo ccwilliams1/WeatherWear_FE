@@ -133,7 +133,6 @@ const handleEdit = (event, id) => {
 
   // When the form cancel button is pressed
   document.querySelector("#cancel").addEventListener("click", () => {
-    console.log("click");
     //Hide form
     editItemForm.style.display = "none";
     previewEdit.style.display = "none";
@@ -143,7 +142,7 @@ const handleEdit = (event, id) => {
     document.getElementById("overlay").style.display = "none";
   });
 
-  console.log(id, clickedId);
+  //console.log(id, clickedId);
 
   document.querySelector("#delete").addEventListener("click", () => {
     handleDelete(event, clickedId);
@@ -183,7 +182,6 @@ const handleEdit = (event, id) => {
       });
 
       if (data[0].base64_image) {
-        console.log("Ya boi");
         const base64Image = data[0].base64_image;
         previewEdit.src = `data:image/jpeg;base64,${base64Image}`;
         previewEdit.style.display = "block";

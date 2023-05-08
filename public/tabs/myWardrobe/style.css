@@ -23,6 +23,15 @@ body {
   transition: all 1s ease-in;
 }
 /* Navbar */
+
+#wardrobe-buttons{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
 .view-button {
   border: 2px solid #254355;
   letter-spacing: 2px;
@@ -31,6 +40,10 @@ body {
   padding: 10px 20px;
   transition: all 0.3s ease;
   box-shadow: none;
+  width: 200px;
+  height: 200px;
+  font-size: 2rem !important;
+
 }
 
 .view-button:hover {
@@ -44,10 +57,13 @@ body {
   border: 2px solid #457B98;
   letter-spacing: 2px;
   background-color: transparent;
-  border-radius: 20px;
+  border-radius: 50px;
   padding: 10px 20px;
   transition: all 0.3s ease;
   box-shadow: none;
+  width: 200px;
+  height: 200px;
+  font-size: 2rem !important;
 }
 
 .add-button:hover {
