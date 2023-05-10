@@ -7,8 +7,6 @@ Open a terminal window and navigate to the project folder. VS Code has a built i
 Make sure node is installed
 In the terminal window type 'npm install -g npm' 
 
-That should work, if it doesn't youre on your own
-
 Once node is installed run 'npm server.js' 
 Running server.js will start the whole damn project. As long as nothing yucky shows up in your terminal you're straight
 
